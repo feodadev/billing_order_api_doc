@@ -418,8 +418,14 @@
             <h2 style="color: #1f2937; font-size: 1.75rem; margin-bottom: 1rem;">Overview</h2>
             <p style="color: #4b5563; line-height: 1.8; margin-bottom: 1rem;">
                 This documentation provides comprehensive details for integrating with NetSuite's endpoints. These APIs
-                enable you to retrieve all Sales Order data as well as a single Sales Order based on its ID from your
-                NetSuite environment.
+                enable you to:
+            </p>
+            <ul style="color: #4b5563; line-height: 1.8; margin-bottom: 1rem; margin-left: 1.5rem;">
+                <li>Retrieve all Sales Orders or a single Sales Order based on its ID</li>
+                <li>Retrieve all Invoices or a single Invoice based on its ID</li>
+            </ul>
+            <p style="color: #4b5563; line-height: 1.8; margin-bottom: 1rem;">
+                All data is retrieved directly from your NetSuite environment.
             </p>
             <p style="color: #4b5563; line-height: 1.8; margin-bottom: 1rem;">
                 All endpoints require OAuth 1.0 authentication and are designed to work seamlessly with API clients such
@@ -429,8 +435,13 @@
                 style="background: #f0f9ff; border-left: 4px solid #0284c7; padding: 1rem; margin: 1rem 0; border-radius: 4px;">
                 <h4 style="color: #0c4a6e; margin-bottom: 0.5rem; font-weight: 600;">Available Endpoints:</h4>
                 <ul style="margin-left: 1.5rem; color: #075985; line-height: 1.8;">
-                    <li><strong>Base URL:</strong> Retrieve All the Sales order</li>
-                    <li><strong>Base URL&id={salesOrderId}:</strong> Retrieve Sales Order against the sales order id</li>
+                    <li><strong>Base URL&type=billingorder:</strong> Retrieve All the Sales order</li>
+                    <li><strong>Base URL&type=billingorder&id={salesOrderId}:</strong> Retrieve single Sales Order
+                        against the sales order id</li>
+                    <li><strong>Base URL&type=Invoice:</strong> Retrieve All the Invoices along with associated lines
+                    </li>
+                    <li><strong>Base URL&type=Invoice&id={invoiceId}:</strong> Retrieve single Invoice against the
+                        Invoice id</li>
                 </ul>
             </div>
             <div
@@ -610,19 +621,18 @@ error message: An unexpected SuiteScript error has occurred</pre>
             </div>
             <!-- ENDPOINT 1: GET Sales Order Data -->
             <div class="endpoint">
-                <div class="endpoint-header" id="header-2" onclick="toggleEndpoint(2)">
+                <div class="endpoint-header" id="header-1" onclick="toggleEndpoint(1)">
                     <span class="method-badge method-get">GET</span>
-                    <span class="endpoint-url">{Base URL}</span>
-                    <span class="endpoint-toggle" id="toggle-2">▼</span>
+                    <span class="endpoint-url">{Base URL}&type=billingorder</span>
+                    <span class="endpoint-toggle" id="toggle-1">▼</span>
                 </div>
-                <div class="endpoint-body" id="body-2">
+                <div class="endpoint-body" id="body-1">
                     <!-- API Overview -->
                     <div
                         style="background: #f0f9ff; border-left: 4px solid #0284c7; padding: 1rem; margin-bottom: 2rem; border-radius: 4px;">
                         <h4 style="color: #0c4a6e; margin-bottom: 0.5rem; font-weight: 600;">Endpoint Overview</h4>
                         <p style="color: #075985; line-height: 1.7; margin-bottom: 0.5rem;">
-                            This endpoint retrieves Sales Order records along with their associated items. Each Sales
-                            Order includes complete header information and an array of related item records.
+                            This endpoint retrieves Sales Order records with basic Information and payment link.
                         </p>
                     </div>
 
@@ -651,6 +661,13 @@ error message: An unexpected SuiteScript error has occurred</pre>
                                             style="background: #f3f4f6; padding: 0.25rem 0.5rem; border-radius: 4px;">1</code>
                                     </td>
                                     <td>Script deployment ID</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="param-name">type</span></td>
+                                    <td><code
+                                            style="background: #f3f4f6; padding: 0.25rem 0.5rem; border-radius: 4px;">billingorder</code>
+                                    </td>
+                                    <td>Type of data</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -728,7 +745,6 @@ error message: An unexpected SuiteScript error has occurred</pre>
                                 <pre>{
   <span class="property">"success"</span>: <span class="boolean">true</span>,
   <span class="property">"message"</span>: <span class="string">"Sales Orders retrieved successfully"</span>,
-  <span class="property">"timestamp"</span>: <span class="string">"Sting"</span>,
   <span class="property">"totalRecords"</span>: <span class="number">0</span>,
   <span class="property">"data"</span>: [
     {
@@ -738,49 +754,16 @@ error message: An unexpected SuiteScript error has occurred</pre>
       <span class="property">"customer"</span>: <span class="string">"String"</span>,
       <span class="property">"customerId"</span>: <span class="string">"String"</span>,
       <span class="property">"status"</span>: <span class="string">"String"</span>,
-      <span class="property">"statusId"</span>: <span class="string">"String"</span>,
       <span class="property">"memo"</span>: <span class="string">"String"</span>,
       <span class="property">"total"</span>: <span class="number">number</span>,
       <span class="property">"taxTotal"</span>: <span class="number">number</span>,
-      <span class="property">"location"</span>: <span class="string">"String"</span>,
-      <span class="property">"locationId"</span>: <span class="string">"String"</span>,
-      <span class="property">"department"</span>: <span class="string">"String"</span>,
-      <span class="property">"departmentId"</span>: <span class="string">"45"</span>,
-      <span class="property">"class"</span>: <span class="string">"String"</span>,
-      <span class="property">"classId"</span>: <span class="string">"String1"</span>,
       <span class="property">"terms"</span>: <span class="string">"String"</span>,
-      <span class="property">"termsId"</span>: <span class="string">"String"</span>,
       <span class="property">"dueDate"</span>: <span class="string">"String"</span>,
-      <span class="property">"shipMethod"</span>: <span class="string">"String"</span>,
-      <span class="property">"shipMethodId"</span>: <span class="string">"String"</span>,
-      <span class="property">"otherRefNum"</span>: <span class="string">"String"</span>,
       <span class="property">"familyCode"</span>: <span class="string">"String"</span>,
-      <span class="property">"lastModifiedDate"</span>: <span class="string">"String</span>,
-      <span class="property">"items"</span>: [
-        {
-          <span class="property">"lineNumber"</span>: <span class="string">"String"</span>,
-          <span class="property">"item"</span>: <span class="string">"String"</span>,
-          <span class="property">"itemId"</span>: <span class="string">"String"</span>,
-          <span class="property">"itemDisplayName"</span>: <span class="string">"String"</span>,
-          <span class="property">"memo"</span>: <span class="string">"String"</span>,
-          <span class="property">"quantity"</span>: <span class="number">number</span>,
-          <span class="property">"rate"</span>: <span class="number">number</span>,
-          <span class="property">"amount"</span>: <span class="number">number</span>,
-          <span class="property">"taxCode"</span>: <span class="string">"String"</span>,
-          <span class="property">"taxCodeId"</span>: <span class="string">"String"</span>,
-          <span class="property">"location"</span>: <span class="string">"String"</span>,
-          <span class="property">"locationId"</span>: <span class="string">"String"</span>,
-          <span class="property">"department"</span>: <span class="string">"String"</span>,
-          <span class="property">"departmentId"</span>: <span class="string">"String"</span>,
-          <span class="property">"class"</span>: <span class="string">"String"</span>,
-          <span class="property">"classId"</span>: <span class="string">"String"</span>
-        }
-      ]
+      <span class="property">"paymentLink"</span>: <span class="string">"String"</span>,
     }
   ]
 }</pre>
-
-
                             </div>
                         </div>
 
@@ -806,20 +789,21 @@ error message: An unexpected SuiteScript error has occurred</pre>
                 </div>
             </div>
 
-            <!-- ENDPOINT 2: GET Invoices -->
+            <!-- ENDPOINT 2: GET Sales Order by id -->
             <div class="endpoint">
-                <div class="endpoint-header" id="header-3" onclick="toggleEndpoint(3)">
+                <div class="endpoint-header" id="header-2" onclick="toggleEndpoint(2)">
                     <span class="method-badge method-get">GET</span>
-                    <span class="endpoint-url">{Base URL}&id={salesOrderId}</span>
-                    <span class="endpoint-toggle" id="toggle-3">▼</span>
+                    <span class="endpoint-url">{Base URL}&type=billingorder&id={salesOrderId}</span>
+                    <span class="endpoint-toggle" id="toggle-2">▼</span>
                 </div>
-                <div class="endpoint-body" id="body-3">
+                <div class="endpoint-body" id="body-2">
                     <!-- API Overview -->
                     <div
                         style="background: #f0f9ff; border-left: 4px solid #0284c7; padding: 1rem; margin-bottom: 2rem; border-radius: 4px;">
                         <h4 style="color: #0c4a6e; margin-bottom: 0.5rem; font-weight: 600;">Endpoint Overview</h4>
                         <p style="color: #075985; line-height: 1.7; margin-bottom: 0.5rem;">
-                            This endpoint retrieves all details of the sales order associated with the provided ID.
+                            This endpoint retrieves all Basic details of the sales order associated with the provided
+                            ID.
                         </p>
                     </div>
 
@@ -848,6 +832,13 @@ error message: An unexpected SuiteScript error has occurred</pre>
                                             style="background: #f3f4f6; padding: 0.25rem 0.5rem; border-radius: 4px;">1</code>
                                     </td>
                                     <td>Script deployment ID</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="param-name">type</span></td>
+                                    <td><code
+                                            style="background: #f3f4f6; padding: 0.25rem 0.5rem; border-radius: 4px;">billingorder</code>
+                                    </td>
+                                    <td>Type of data</td>
                                 </tr>
                                 <tr>
                                     <td><span class="param-name">id</span></td>
@@ -926,7 +917,6 @@ error message: An unexpected SuiteScript error has occurred</pre>
                                 <pre>{
   <span class="property">"success"</span>: <span class="boolean">true</span>,
   <span class="property">"message"</span>: <span class="string">"Sales Order retrieved successfully"</span>,
-  <span class="property">"timestamp"</span>: <span class="string">"Sting"</span>,
   <span class="property">"totalRecords"</span>: <span class="number">0</span>,
   <span class="property">"data"</span>: [
     {
@@ -936,46 +926,385 @@ error message: An unexpected SuiteScript error has occurred</pre>
       <span class="property">"customer"</span>: <span class="string">"String"</span>,
       <span class="property">"customerId"</span>: <span class="string">"String"</span>,
       <span class="property">"status"</span>: <span class="string">"String"</span>,
-      <span class="property">"statusId"</span>: <span class="string">"String"</span>,
       <span class="property">"memo"</span>: <span class="string">"String"</span>,
       <span class="property">"total"</span>: <span class="number">number</span>,
       <span class="property">"taxTotal"</span>: <span class="number">number</span>,
-      <span class="property">"location"</span>: <span class="string">"String"</span>,
-      <span class="property">"locationId"</span>: <span class="string">"String"</span>,
-      <span class="property">"department"</span>: <span class="string">"String"</span>,
-      <span class="property">"departmentId"</span>: <span class="string">"45"</span>,
-      <span class="property">"class"</span>: <span class="string">"String"</span>,
-      <span class="property">"classId"</span>: <span class="string">"String1"</span>,
       <span class="property">"terms"</span>: <span class="string">"String"</span>,
-      <span class="property">"termsId"</span>: <span class="string">"String"</span>,
       <span class="property">"dueDate"</span>: <span class="string">"String"</span>,
-      <span class="property">"shipMethod"</span>: <span class="string">"String"</span>,
-      <span class="property">"shipMethodId"</span>: <span class="string">"String"</span>,
-      <span class="property">"otherRefNum"</span>: <span class="string">"String"</span>,
       <span class="property">"familyCode"</span>: <span class="string">"String"</span>,
-      <span class="property">"lastModifiedDate"</span>: <span class="string">"String</span>,
-      <span class="property">"items"</span>: [
+      <span class="property">"paymentLink"</span>: <span class="string">"String"</span>,
+    }
+  ]
+}</pre>
+
+                            </div>
+                        </div>
+
+                        <!-- 204 Response -->
+                        <div class="response-code error">
+                            <div class="response-code-header">
+                                <span class="response-status">204</span>
+                                <span class="response-desc">No Content</span>
+                            </div>
+                            <p style="margin-top: 0.5rem; color: #6b7280; font-size: 0.875rem;">No records found
+                                matching the criteria.</p>
+                        </div>
+                    </div>
+
+                    <!-- Notes Section -->
+                    <div class="notes">
+                        <h4>Notes</h4>
+                        <ul>
+                            <li>Timestamps are in ISO 8601 format</li>
+                            <li>Line items include quantity, rate, and calculated amounts</li>
+                            <li>Classification dimensions (class, department, location) are included for each line</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- ENDPOINT 3: GET Invoice Data -->
+            <div class="endpoint">
+                <div class="endpoint-header" id="header-3" onclick="toggleEndpoint(3)">
+                    <span class="method-badge method-get">GET</span>
+                    <span class="endpoint-url">{Base URL}&type=invoice</span>
+                    <span class="endpoint-toggle" id="toggle-3">▼</span>
+                </div>
+                <div class="endpoint-body" id="body-3">
+                    <!-- API Overview -->
+                    <div
+                        style="background: #f0f9ff; border-left: 4px solid #0284c7; padding: 1rem; margin-bottom: 2rem; border-radius: 4px;">
+                        <h4 style="color: #0c4a6e; margin-bottom: 0.5rem; font-weight: 600;">Endpoint Overview</h4>
+                        <p style="color: #075985; line-height: 1.7; margin-bottom: 0.5rem;">
+                            This endpoint retrieves Invoice records along with their associated items. Each Invoice
+                            includes complete header information and an array of related item records.
+                        </p>
+                    </div>
+
+                    <!-- Query Parameters Section -->
+                    <div class="section">
+                        <div class="section-title">Query Parameters</div>
+                        <table class="param-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 20%;">Key</th>
+                                    <th style="width: 30%;">Value</th>
+                                    <th style="width: 50%;">Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="param-name">Script</span></td>
+                                    <td><code
+                                            style="background: #f3f4f6; padding: 0.25rem 0.5rem; border-radius: 4px;">2497</code>
+                                    </td>
+                                    <td>Script internal ID</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="param-name">deploy</span></td>
+                                    <td><code
+                                            style="background: #f3f4f6; padding: 0.25rem 0.5rem; border-radius: 4px;">1</code>
+                                    </td>
+                                    <td>Script deployment ID</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="param-name">type</span></td>
+                                    <td><code
+                                            style="background: #f3f4f6; padding: 0.25rem 0.5rem; border-radius: 4px;">invoice</code>
+                                    </td>
+                                    <td>Type of data</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Headers Section -->
+                    <div class="section">
+                        <div class="section-title">Headers <span style="color: #dc2626; font-size: 0.9rem;">(Must be
+                                manually added in Postman)</span></div>
+                        <table class="param-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 25%;">Key</th>
+                                    <th style="width: 35%;">Value</th>
+                                    <th style="width: 40%;">Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="param-name">Content-Type</span></td>
+                                    <td><code
+                                            style="background: #f3f4f6; padding: 0.25rem 0.5rem; border-radius: 4px;">application/json</code>
+                                    </td>
+                                    <td>Request content type</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="param-name">Accept</span></td>
+                                    <td><code
+                                            style="background: #f3f4f6; padding: 0.25rem 0.5rem; border-radius: 4px;">application/json</code>
+                                    </td>
+                                    <td>Expected response content type</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="param-name">Authorization</span></td>
+                                    <td><code
+                                            style="background: #f3f4f6; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">OAuth oauth_consumer_key="...", oauth_token="..."</code>
+                                    </td>
+                                    <td>OAuth 1.0 authentication header (auto-generated by Postman)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div
+                            style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 1rem; margin-top: 1rem; border-radius: 4px;">
+                            <p style="font-weight: 600; color: #92400e; margin-bottom: 0.5rem;">⚠️ Important:</p>
+                            <p style="color: #78350f; font-size: 0.9rem;">You <strong>must manually add</strong> the
+                                Content-Type and Accept headers in the Headers tab. The Authorization header is
+                                automatically generated when OAuth 1.0 is configured, but Content-Type and Accept are
+                                NOT added automatically.</p>
+                        </div>
+                    </div>
+
+                    <!-- Responses Section -->
+                    <div class="section response-section">
+                        <div class="section-title">Responses</div>
+
+                        <!-- 200 Response -->
+                        <div class="response-code">
+                            <div class="response-code-header">
+                                <span class="response-status">200</span>
+                                <span class="response-desc">OK</span>
+                            </div>
+                            <p style="margin-top: 0.5rem; color: #6b7280; font-size: 0.875rem;">Invoices retrieved successfully</p>
+
+                            <label for="response-media-2"
+                                style="display: block; margin: 1rem 0 0.5rem; font-weight: 500; color: #374151;">Media
+                                type:</label>
+                            <select id="response-media-2" class="media-type-select">
+                                <option value="application/json">application/json</option>
+                            </select>
+
+                            <div style="margin-top: 1rem; margin-bottom: 0.5rem; font-weight: 500; color: #374151;">
+                                Example Value | Schema</div>
+                            <div class="code-block">
+                                <pre>{
+  <span class="property">"success"</span>: <span class="boolean">true</span>,
+  <span class="property">"message"</span>: <span class="string">"Invoices retrieved successfully"</span>,
+  <span class="property">"totalRecords"</span>: <span class="number">0</span>,
+  <span class="property">"data"</span>: [
+    {
+        
+      <span class="property">"internalId"</span>: <span class="string">"String"</span>,
+      <span class="property">"invoiceNumber"</span>: <span class="string">"String"</span>,
+      <span class="property">"invoiceDate"</span>: <span class="string">"String"</span>,
+      <span class="property">"dueDate"</span>: <span class="string">"String"</span>,
+      <span class="property">"customer"</span>: <span class="string">"String"</span>,
+      <span class="property">"customerId"</span>: <span class="string">"String"</span>,
+      <span class="property">"memo"</span>: <span class="string">"String"</span>,
+      <span class="property">"status"</span>: <span class="string">"String"</span>,
+      <span class="property">"familyCode"</span>: <span class="string">"String"</span>,
+      <span class="property">"rate"</span>: <span class="string">"String</span>,
+   <span class="property">"items"</span>: [
         {
-          <span class="property">"lineNumber"</span>: <span class="string">"String"</span>,
           <span class="property">"item"</span>: <span class="string">"String"</span>,
           <span class="property">"itemId"</span>: <span class="string">"String"</span>,
-          <span class="property">"itemDisplayName"</span>: <span class="string">"String"</span>,
-          <span class="property">"memo"</span>: <span class="string">"String"</span>,
+          <span class="property">"account"</span>: <span class="string">"String"</span>,
+          <span class="property">"accountId"</span>: <span class="string">"String"</span>,
           <span class="property">"quantity"</span>: <span class="number">number</span>,
           <span class="property">"rate"</span>: <span class="number">number</span>,
-          <span class="property">"amount"</span>: <span class="number">number</span>,
-          <span class="property">"taxCode"</span>: <span class="string">"String"</span>,
-          <span class="property">"taxCodeId"</span>: <span class="string">"String"</span>,
           <span class="property">"location"</span>: <span class="string">"String"</span>,
-          <span class="property">"locationId"</span>: <span class="string">"String"</span>,
           <span class="property">"department"</span>: <span class="string">"String"</span>,
-          <span class="property">"departmentId"</span>: <span class="string">"String"</span>,
           <span class="property">"class"</span>: <span class="string">"String"</span>,
-          <span class="property">"classId"</span>: <span class="string">"String"</span>
+          <span class="property">"studentExternalId"</span>: <span class="string">"String"</span>,
         }
       ]
     }
   ]
+  
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- 204 Response -->
+                        <div class="response-code error">
+                            <div class="response-code-header">
+                                <span class="response-status">204</span>
+                                <span class="response-desc">No Content</span>
+                            </div>
+                            <p style="margin-top: 0.5rem; color: #6b7280; font-size: 0.875rem;">No records found
+                                matching the criteria.</p>
+                        </div>
+                    </div>
+
+                    <!-- Notes Section -->
+                    <div class="notes">
+                        <h4>Notes</h4>
+                        <ul>
+                            <li>All dates are returned in DD/MM/YYYY format</li>
+                            <li>Timestamps are in ISO 8601 format</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- ENDPOINT 4: GET Invoice by id -->
+            <div class="endpoint">
+                <div class="endpoint-header" id="header-4" onclick="toggleEndpoint(4)">
+                    <span class="method-badge method-get">GET</span>
+                    <span class="endpoint-url">{Base URL}&type=invoice&id={invoiceId}</span>
+                    <span class="endpoint-toggle" id="toggle-4">▼</span>
+                </div>
+                <div class="endpoint-body" id="body-4">
+                    <!-- API Overview -->
+                    <div
+                        style="background: #f0f9ff; border-left: 4px solid #0284c7; padding: 1rem; margin-bottom: 2rem; border-radius: 4px;">
+                        <h4 style="color: #0c4a6e; margin-bottom: 0.5rem; font-weight: 600;">Endpoint Overview</h4>
+                        <p style="color: #075985; line-height: 1.7; margin-bottom: 0.5rem;">
+                            This endpoint retrieves Invoice record along with their associated items. Invoice
+                            includes complete header information and an array of related item records associated with
+                            the provided ID.
+
+                        </p>
+                    </div>
+
+                    <!-- Query Parameters Section -->
+                    <div class="section">
+                        <div class="section-title">Query Parameters</div>
+                        <table class="param-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 20%;">Key</th>
+                                    <th style="width: 30%;">Value</th>
+                                    <th style="width: 50%;">Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="param-name">Script</span></td>
+                                    <td><code
+                                            style="background: #f3f4f6; padding: 0.25rem 0.5rem; border-radius: 4px;">2497</code>
+                                    </td>
+                                    <td>Script internal ID</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="param-name">deploy</span></td>
+                                    <td><code
+                                            style="background: #f3f4f6; padding: 0.25rem 0.5rem; border-radius: 4px;">1</code>
+                                    </td>
+                                    <td>Script deployment ID</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="param-name">type</span></td>
+                                    <td><code
+                                            style="background: #f3f4f6; padding: 0.25rem 0.5rem; border-radius: 4px;">invoice</code>
+                                    </td>
+                                    <td>Type of data</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="param-name">id</span></td>
+                                    <td><code
+                                            style="background: #f3f4f6; padding: 0.25rem 0.5rem; border-radius: 4px;">{invoiceId}</code>
+                                    </td>
+                                    <td>Invoice internal id in Netsuite</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Headers Section -->
+                    <div class="section">
+                        <div class="section-title">Headers</div>
+                        <table class="param-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 25%;">Key</th>
+                                    <th style="width: 35%;">Value</th>
+                                    <th style="width: 40%;">Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="param-name">Content-Type</span></td>
+                                    <td><code
+                                            style="background: #f3f4f6; padding: 0.25rem 0.5rem; border-radius: 4px;">application/json</code>
+                                    </td>
+                                    <td>Request content type</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="param-name">Accept</span></td>
+                                    <td><code
+                                            style="background: #f3f4f6; padding: 0.25rem 0.5rem; border-radius: 4px;">application/json</code>
+                                    </td>
+                                    <td>Expected response content type</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="param-name">Authorization</span></td>
+                                    <td><code
+                                            style="background: #f3f4f6; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">OAuth oauth_consumer_key="...", oauth_token="..."</code>
+                                    </td>
+                                    <td>OAuth 1.0 authentication header (auto-generated)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p style="margin-top: 0.75rem; color: #6b7280; font-size: 0.875rem;"><em>Note: The Authorization
+                                header is automatically generated when using OAuth 1.0 authentication in Postman.</em>
+                        </p>
+                    </div>
+
+                    <!-- Responses Section -->
+                    <div class="section response-section">
+                        <div class="section-title">Responses</div>
+
+                        <!-- 200 Response -->
+                        <div class="response-code">
+                            <div class="response-code-header">
+                                <span class="response-status">200</span>
+                                <span class="response-desc">OK</span>
+                            </div>
+                            <p style="margin-top: 0.5rem; color: #6b7280; font-size: 0.875rem;">Sales Order retrieved
+                                successfully</p>
+
+                            <label for="response-media-3"
+                                style="display: block; margin: 1rem 0 0.5rem; font-weight: 500; color: #374151;">Media
+                                type:</label>
+                            <select id="response-media-3" class="media-type-select">
+                                <option value="application/json">application/json</option>
+                            </select>
+
+                            <div style="margin-top: 1rem; margin-bottom: 0.5rem; font-weight: 500; color: #374151;">
+                                Example Value | Schema</div>
+                            <div class="code-block">
+                                <pre>{
+  <span class="property">"success"</span>: <span class="boolean">true</span>,
+  <span class="property">"message"</span>: <span class="string">"Invoice retrieved successfully"</span>,
+  <span class="property">"totalRecords"</span>: <span class="number">0</span>,
+  <span class="property">"data"</span>: [
+    {
+        
+      <span class="property">"internalId"</span>: <span class="string">"String"</span>,
+      <span class="property">"invoiceNumber"</span>: <span class="string">"String"</span>,
+      <span class="property">"invoiceDate"</span>: <span class="string">"String"</span>,
+      <span class="property">"dueDate"</span>: <span class="string">"String"</span>,
+      <span class="property">"customer"</span>: <span class="string">"String"</span>,
+      <span class="property">"customerId"</span>: <span class="string">"String"</span>,
+      <span class="property">"memo"</span>: <span class="string">"String"</span>,
+      <span class="property">"status"</span>: <span class="string">"String"</span>,
+      <span class="property">"familyCode"</span>: <span class="string">"String"</span>,
+      <span class="property">"rate"</span>: <span class="string">"String</span>,
+   <span class="property">"items"</span>: [
+        {
+          <span class="property">"item"</span>: <span class="string">"String"</span>,
+          <span class="property">"itemId"</span>: <span class="string">"String"</span>,
+          <span class="property">"account"</span>: <span class="string">"String"</span>,
+          <span class="property">"accountId"</span>: <span class="string">"String"</span>,
+          <span class="property">"quantity"</span>: <span class="number">number</span>,
+          <span class="property">"rate"</span>: <span class="number">number</span>,
+          <span class="property">"location"</span>: <span class="string">"String"</span>,
+          <span class="property">"department"</span>: <span class="string">"String"</span>,
+          <span class="property">"class"</span>: <span class="string">"String"</span>,
+          <span class="property">"studentExternalId"</span>: <span class="string">"String"</span>,
+        }
+      ]
+    }
+  ]
+  
 }</pre>
 
                             </div>
@@ -1012,6 +1341,4 @@ error message: An unexpected SuiteScript error has occurred</pre>
     </div>
 </body>
 
-
 </html>
-
